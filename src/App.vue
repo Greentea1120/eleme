@@ -1,12 +1,12 @@
 /*
  * @Author: Greentea
  * @Date: 2017-10-12 11:19:37
- * @Last Modified by: Greentea
- * @Last Modified time: 2017-10-12 17:52:46
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2017-10-12 22:09:02
  */
 <template>
   <div id="app">
-    <v-header></v-header>
+    <v-header :seller="seller"></v-header>
     <div class="tab border-1px">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
