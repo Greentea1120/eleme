@@ -1,3 +1,9 @@
+/*
+ * @Author: Greentea 
+ * @Date: 2017-10-12 11:19:37 
+ * @Last Modified by:   Greentea 
+ * @Last Modified time: 2017-10-12 11:19:37 
+ */
 <template>
   <div id="app">
     <v-header></v-header>
@@ -34,7 +40,7 @@
       display : flex
       width : 100%
       height : 40px
-      line-height :40px
+      line-height : 40px
       .tab-item
         flex : 1
         text-align : center
