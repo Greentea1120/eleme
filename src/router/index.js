@@ -1,3 +1,9 @@
+/*
+ * @Author: Greentea
+ * @Date: 2017-10-12 17:05:56
+ * @Last Modified by:   Greentea
+ * @Last Modified time: 2017-10-12 17:05:56
+ */
 import Vue from 'vue';
 import Router from 'vue-router';
 import Goods from '@/components/goods/goods';
@@ -8,6 +14,10 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
+    {
+      path: '/',
+      component: Goods
+    },
     {
       path: '/goods',
       name: 'goods',
@@ -23,5 +33,7 @@ export default new Router({
       name: 'seller',
       component: Seller
     }
-  ]
+  ],
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'exact-active'
 });

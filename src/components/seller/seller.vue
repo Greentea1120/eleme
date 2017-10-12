@@ -6,7 +6,7 @@
  */
 <template>
   <div>
-      i am seller sssssss
+      i am seller 
   </div>
 </template>
 
