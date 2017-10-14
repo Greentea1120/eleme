@@ -2,11 +2,11 @@
  * @Author: Greentea 
  * @Date: 2017-10-12 11:19:51 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-10-15 01:46:57
+ * @Last Modified time: 2017-10-15 03:46:10
  */
 <template>
  <div class="goods">
-  <div class="menu-wrapper">
+  <div class="menu-wrapper" ref="menuWrapper">
     <ul>
       <li v-for="item in goods" class="menu-item">
         <span class="text border-1px">
@@ -15,9 +15,9 @@
       </li>
     </ul>
   </div>
-  <div class="foods-wrapper">
+  <div class="foods-wrapper" ref="foodsWrapper">
     <ul>
-      <li v-for="item in goods" class="food-list">
+      <li v-for="item in goods" class="food-list food-list-hook">
         <h1 class="title">{{item.name}}</h1>
         <ul>
           <li v-for="food in item.foods" class="food-item border-1px">
@@ -32,8 +32,7 @@
                 <span>好评率{{food.rating}}</span>
               </div>
               <div class="price">
-                <span>${{food.price}}</span>
-                <span v-show="food.oldPrice">${food.oldPrice}}</span>
+                <span class="now">${{food.price}}</span><span class="old" v-show="food.oldPrice">${{food.oldPrice}}</span>
               </div>
             </div>
           </li>
@@ -45,6 +44,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import BSccroll from 'better-scroll';
+
   const ERR_OK = 0;
 
   export default {
@@ -61,16 +62,44 @@
         if (response.errno === ERR_OK) {
           this.goods = response.data;
           console.log(this.goods);
+          this.$nextTick(() => {
+            this._initScroll();
+            this._calculateHeight();
+          });
         }
       });
     },
     data () {
       return {
-        goods: []
+        goods: [],
+        listHeight: [],
+        scrollY: 0
       };
     },
     components: {
 
+    },
+    methods: {
+      _initScroll() {
+        this.menuScroll = new BSccroll(this.$refs.menuWrapper, {});
+        this.foodsScroll = new BSccroll(this.$refs.foodsWrapper, {
+          probeType: 3
+        });
+
+        this.foodsScroll.on('scroll', (pos) => {
+          this.scrollY = Math.abs(Math.round(pos.y));
+        });
+      },
+      _calculateHeight() {
+        let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
+        let height = 0;
+        this.listHeight.push(height);
+        for (let i = 0;i < foodList.length;i++) {
+          let item = foodList[i];
+          height += item.clientHeight;
+          this.listHeight.push(height);
+        }
+      }
     }
   };
 </script>
@@ -155,8 +184,20 @@
             color rgb(147,153,159)
           .desc
             margin-bottom 8px
+            line-height 12px
           .extra
-            &.count
+            .count
               margin-right 12px
+          .price
+            font-weight 700
+            line-height 24px
+            .now
+              margin-right 8px
+              font-size 14px
+              color rgb(240,20,20)
+            .old
+              text-decoration line-through
+              font-size 10px
+              color rgb(147,153,159)
               
 </style>
