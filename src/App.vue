@@ -1,8 +1,8 @@
 /*
  * @Author: Greentea
  * @Date: 2017-10-12 11:19:37
- * @Last Modified by: Greentea
- * @Last Modified time: 2017-10-13 14:57:09
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2017-10-15 00:45:21
  */
 <template>
   <div id="app">
@@ -20,7 +20,7 @@
     </div>
     <router-view></router-view>
     <div class="content">
-      i am content
+      
     </div>
   </div>
 </template>
@@ -41,7 +41,7 @@
         response = response.body;
         if (response.errno === ERR_OK) {
           this.seller = response.data;
-          // console.log(this.seller);
+          console.log(this.seller);
         }
       });
     },
