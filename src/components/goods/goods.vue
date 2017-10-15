@@ -107,7 +107,6 @@
 <style scoped lang="stylus">
   @import "../../common/stylus/mixin.styl";
 
-
   .goods
     display flex
     position absolute
