@@ -1,14 +1,14 @@
 /*
- * @Author: Greentea 
- * @Date: 2017-10-12 11:19:51 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-10-15 03:46:10
+ * @Author: Greentea
+ * @Date: 2017-10-12 11:19:51
+ * @Last Modified by: Greentea
+ * @Last Modified time: 2017-10-16 15:39:40
  */
 <template>
  <div class="goods">
   <div class="menu-wrapper" ref="menuWrapper">
     <ul>
-      <li v-for="item in goods" class="menu-item">
+      <li v-for="(item,index) in goods" class="menu-item" :class="{'current':currentIndex===index}" @click="selectMenu(index,$event)">
         <span class="text border-1px">
           <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
         </span>
@@ -69,7 +69,19 @@
         }
       });
     },
-    data () {
+    computed: {
+      currentIndex() {
+        for (let i = 0;i < this.listHeight.length;i++) {
+          let height1 = this.listHeight[i];
+          let height2 = this.listHeight[i + 1];
+          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            return i;
+          }
+        }
+        return 0;
+      }
+    },
+    data() {
       return {
         goods: [],
         listHeight: [],
@@ -80,14 +92,29 @@
 
     },
     methods: {
+      /* eslint no-useless-return: "error" */
+      selectMenu(index, event) {
+        // console.log(index);
+        if (!event._constructed) {
+          return;
+        }
+        let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
+        let el = foodList[index];
+        this.foodsScroll.scrollToElement(el, 300);
+
+        console.log(index);
+      },
       _initScroll() {
-        this.menuScroll = new BSccroll(this.$refs.menuWrapper, {});
+        this.menuScroll = new BSccroll(this.$refs.menuWrapper, {
+          click: true
+        });
         this.foodsScroll = new BSccroll(this.$refs.foodsWrapper, {
           probeType: 3
         });
 
         this.foodsScroll.on('scroll', (pos) => {
           this.scrollY = Math.abs(Math.round(pos.y));
+          // console.log(pos.y);
         });
       },
       _calculateHeight() {
@@ -124,6 +151,14 @@
         width 56px
         padding 0 12px
         line-height 14px
+        &.current
+          position relative
+          z-index 10
+          margin-top -1px
+          background #fff
+          font-weight 700
+          .text
+            border-none()
         .icon
           display inline-block
           vertical-align top
@@ -198,5 +233,5 @@
               text-decoration line-through
               font-size 10px
               color rgb(147,153,159)
-              
+
 </style>
