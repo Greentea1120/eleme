@@ -1,8 +1,8 @@
 /*
  * @Author: Greentea
  * @Date: 2017-10-12 11:19:37
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-10-15 00:45:21
+ * @Last Modified by: Greentea
+ * @Last Modified time: 2017-10-16 17:52:02
  */
 <template>
   <div id="app">
@@ -18,9 +18,9 @@
         <router-link to="/seller">商家</router-link>
         </div>
     </div>
-    <router-view></router-view>
+    <router-view :seller="seller"></router-view>
     <div class="content">
-      
+
     </div>
   </div>
 </template>

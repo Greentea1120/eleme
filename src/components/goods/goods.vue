@@ -2,7 +2,7 @@
  * @Author: Greentea
  * @Date: 2017-10-12 11:19:51
  * @Last Modified by: Greentea
- * @Last Modified time: 2017-10-16 15:39:40
+ * @Last Modified time: 2017-10-16 17:45:58
  */
 <template>
  <div class="goods">
@@ -40,11 +40,13 @@
       </li>
     </ul>
   </div>
+  <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.inPrice"></shopcart>
  </div>
 </template>
 
 <script type="text/ecmascript-6">
   import BSccroll from 'better-scroll';
+  import shopcart from '@/components/shopcart/shopcart';
 
   const ERR_OK = 0;
 
@@ -89,7 +91,7 @@
       };
     },
     components: {
-
+      shopcart
     },
     methods: {
       /* eslint no-useless-return: "error" */
