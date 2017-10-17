@@ -2,7 +2,7 @@
  * @Author: Greentea
  * @Date: 2017-10-12 11:19:51
  * @Last Modified by: Greentea
- * @Last Modified time: 2017-10-16 17:45:58
+ * @Last Modified time: 2017-10-17 17:55:39
  */
 <template>
  <div class="goods">
@@ -34,19 +34,23 @@
               <div class="price">
                 <span class="now">${{food.price}}</span><span class="old" v-show="food.oldPrice">${{food.oldPrice}}</span>
               </div>
+              <div class="cartcontrol-wrapper">
+                <cartcontrol :food="food"></cartcontrol>
+              </div>
             </div>
           </li>
         </ul>
       </li>
     </ul>
   </div>
-  <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.inPrice"></shopcart>
+  <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
  </div>
 </template>
 
 <script type="text/ecmascript-6">
   import BSccroll from 'better-scroll';
   import shopcart from '@/components/shopcart/shopcart';
+  import cartcontrol from '@/components/cartcontrol/cartcontrol';
 
   const ERR_OK = 0;
 
@@ -63,7 +67,7 @@
         response = response.body;
         if (response.errno === ERR_OK) {
           this.goods = response.data;
-          console.log(this.goods);
+          // console.log(this.goods);
           this.$nextTick(() => {
             this._initScroll();
             this._calculateHeight();
@@ -77,10 +81,22 @@
           let height1 = this.listHeight[i];
           let height2 = this.listHeight[i + 1];
           if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            console.log('currentindex' + i);
             return i;
           }
         }
         return 0;
+      },
+      selectFoods() {
+        let foods = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food);
+            }
+          });
+        });
+        return foods;
       }
     },
     data() {
@@ -88,10 +104,12 @@
         goods: [],
         listHeight: [],
         scrollY: 0
+
       };
     },
     components: {
-      shopcart
+      shopcart,
+      cartcontrol
     },
     methods: {
       /* eslint no-useless-return: "error" */
@@ -103,14 +121,13 @@
         let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el, 300);
-
-        console.log(index);
       },
       _initScroll() {
         this.menuScroll = new BSccroll(this.$refs.menuWrapper, {
           click: true
         });
         this.foodsScroll = new BSccroll(this.$refs.foodsWrapper, {
+          click: true,
           probeType: 3
         });
 
@@ -235,5 +252,8 @@
               text-decoration line-through
               font-size 10px
               color rgb(147,153,159)
-
+          .cartcontrol-wrapper
+            position absolute
+            right 0
+            bottom 12px
 </style>

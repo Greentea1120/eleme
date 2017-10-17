@@ -1,12 +1,12 @@
 /*
- * @Author: Greentea 
- * @Date: 2017-10-12 11:19:19 
+ * @Author: Greentea
+ * @Date: 2017-10-12 11:19:19
  * @Last Modified by: Greentea
- * @Last Modified time: 2017-10-12 11:19:55
+ * @Last Modified time: 2017-10-17 14:07:05
  */
 <template>
   <div>
-      i am seller 
+      i am seller
   </div>
 </template>
 
@@ -25,5 +25,5 @@
 
 <style scoped lang="stylus">
 
- 
+
 </style>

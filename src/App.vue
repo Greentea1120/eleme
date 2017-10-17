@@ -2,7 +2,7 @@
  * @Author: Greentea
  * @Date: 2017-10-12 11:19:37
  * @Last Modified by: Greentea
- * @Last Modified time: 2017-10-16 17:52:02
+ * @Last Modified time: 2017-10-17 14:09:08
  */
 <template>
   <div id="app">
@@ -41,7 +41,7 @@
         response = response.body;
         if (response.errno === ERR_OK) {
           this.seller = response.data;
-          console.log(this.seller);
+          // console.log(this.seller);
         }
       });
     },
