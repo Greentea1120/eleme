@@ -17,7 +17,7 @@
   </div>
   <div class="foods-wrapper" ref="foodsWrapper">
     <ul>
-      <li v-for="item in goods" class="food-list food-list-hook">
+      <li v-for="item in goods" class="food-list food-list-hook" ref="foodList">
         <h1 class="title">{{item.name}}</h1>
         <ul>
           <li v-for="food in item.foods" class="food-item border-1px">
@@ -35,7 +35,8 @@
                 <span class="now">${{food.price}}</span><span class="old" v-show="food.oldPrice">${{food.oldPrice}}</span>
               </div>
               <div class="cartcontrol-wrapper">
-                <cartcontrol :food="food"></cartcontrol>
+                <!-- cartcontrol 触发add -->
+                <cartcontrol :food="food" @add="addFood"></cartcontrol>
               </div>
             </div>
           </li>
@@ -43,7 +44,7 @@
       </li>
     </ul>
   </div>
-  <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+  <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ref="shopcart"></shopcart>
  </div>
 </template>
 
@@ -81,7 +82,7 @@
           let height1 = this.listHeight[i];
           let height2 = this.listHeight[i + 1];
           if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-            console.log('currentindex' + i);
+            // console.log('currentindex' + i);
             return i;
           }
         }
@@ -112,6 +113,15 @@
       cartcontrol
     },
     methods: {
+      addFood(target) {
+        this._drop(target);
+      },
+      _drop(target) {
+        // 体验优化,异步执行下落动画
+        this.$nextTick(() => {
+          this.$refs.shopcart.drop(target);
+        });
+      },
       /* eslint no-useless-return: "error" */
       selectMenu(index, event) {
         // console.log(index);
