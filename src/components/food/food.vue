@@ -17,11 +17,20 @@
           <div class="price">
             <span class="now">${{food.price}}</span><span class="old" v-show="food.oldPrice">${{food.oldPrice}}%</span>
           </div>
+          <div class="cartcontrol-wrapper">
+            <cartcontrol :food="food" @add="addFood"></cartcontrol>
+          </div>
+          <div @click="addFirst" class="buy" v-show="!food.count || food.count === 0">加入购物车</div>
         </div>
-        <div class="cartcontrol-wrapper">
-          <cartcontrol :food="food"></cartcontrol>
+        <split v-show="food.info"></split> 
+        <div class="info" v-show="food.info">
+          <h1 class="title">商品信息</h1>
+          <p class="text">{{food.info}}</p>
         </div>
-        <div class="buy" v-show="!food.count || food.count === 0"></div>
+        <split></split>
+        <div class="rating">
+          <h1 class="title">商品评价</h1>
+        </div> 
       </div>
     </div>
   </transition>
@@ -29,7 +38,10 @@
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll';
+  import Vue from 'vue';
   import cartcontrol from '@/components/cartcontrol/cartcontrol';
+  import ratingselect from '@/components/ratingselect/ratingselect'
+  import split from '@/components/split/split';
   export default {
     props: {
       food: {
@@ -49,6 +61,13 @@
       },
       hide() {
         this.showFlag = false;
+      },
+      addFirst() {
+        this.$emit('add', event.target);
+        Vue.set(this.food, 'count', 1);
+      },
+      addFood(target) {
+        this.$emit('add', target);
       }
     },
     data() {
@@ -57,7 +76,9 @@
       };
     },
     components: {
-      cartcontrol
+      cartcontrol,
+      split,
+      ratingselect
     }
   };
 </script>
@@ -97,6 +118,7 @@
           font-size 20px
           color #fff
     .content
+      position relative
       padding 18px
       .title
         line-height 14px
@@ -125,22 +147,35 @@
           text-decoration line-through
           font-size 10px
           color rgb(147,153,159)
-    .cartcontrol-wrapper
-      position absolute
-      right 12px
-      bottom 12px
-    .buy
-      position absolute
-      right 18px
-      bottom 18px
-      z-index 10
-      height 24px
-      line-height 24px
-      padding 0 12px
-      box-sizing border-box
-      font-size 10px
-      border-radius 12px
-      color #fff
-      background rgb(0,160,220)
+      .cartcontrol-wrapper
+        position absolute
+        right 12px
+        bottom 12px
+      .buy
+        position absolute
+        right 18px
+        bottom 18px
+        z-index 10
+        height 24px
+        line-height 24px
+        padding 0 12px
+        box-sizing border-box
+        font-size 10px
+        border-radius 12px
+        color #fff
+        background rgb(0,160,220)
+    .info
+      padding 18px
+      .title
+        line-height 14px
+        margin-bottom 6px
+        font-size 14px
+        color rgb(7,17,27)
+      .text
+        line-height 24px
+        padding 0 8px
+        font-size 12px
+        color rgb(77,85,93)
+
 
 </style>
