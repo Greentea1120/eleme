@@ -69,12 +69,12 @@
     },
     methods: {
       select(type) {
-        this.selectType = type;
+        // this.selectType = type;
         this.$emit('select', type);
       },
       toggleContent() {
-        this.onlyContent = !this.onlyContent;
-        this.$emit('toggle', this.onlyContent);
+        // this.onlyContent = !this.onlyContent;
+        this.$emit('toggle');
       }
     }
   };
