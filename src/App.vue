@@ -1,8 +1,8 @@
 /*
  * @Author: Greentea
  * @Date: 2017-10-12 11:19:37
- * @Last Modified by: Greentea
- * @Last Modified time: 2017-11-02 18:25:13
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2017-11-03 00:06:50
  */
 <template>
   <div id="app">
@@ -18,7 +18,9 @@
         <router-link to="/seller">商家</router-link>
         </div>
     </div>
-    <router-view :seller="seller"></router-view>
+    <keep-alive>
+      <router-view :seller="seller"></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -42,8 +44,7 @@
       this.$http.get('/api/seller').then((response) => {
         response = response.body;
         if (response.errno === ERR_OK) {
-          this.seller = response.data;
-          // console.log(this.seller);
+          this.seller = Object.assign({}, this.seller, response.data);
         }
       });
     },

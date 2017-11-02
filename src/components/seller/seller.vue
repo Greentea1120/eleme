@@ -1,8 +1,8 @@
 /*
  * @Author: Greentea
  * @Date: 2017-10-12 11:19:19
- * @Last Modified by: Greentea
- * @Last Modified time: 2017-11-02 18:25:15
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2017-11-02 23:50:36
  */
 <template>
   <div class="seller" ref="seller">
@@ -78,11 +78,14 @@
   import BScroll from 'better-scroll';
   import star from '@/components/star/star';
   import split from '@/components/split/split';
+  import {saveToLocal, loadFromLocal} from '@/common/js/store.js';
 
   export default {
     data () {
       return {
-        favorite: false
+        favorite: (() => {
+          return loadFromLocal(this.seller.id, 'favorite', false);
+        })()
       };
     },
     computed: {
@@ -146,6 +149,7 @@
       },
       toggleFavorite() {
         this.favorite = !this.favorite;
+        saveToLocal(this.seller.id, 'favorite', this.favorite);
       }
     }
   };
@@ -205,7 +209,8 @@
               font-size 24px
       .favorite
         position absolute
-        right 18px
+        width 50px
+        right 11px
         top 18px
         text-align center
         .icon-favorite
